@@ -1,0 +1,1 @@
+wirting a kernel based on the os wiki dev, just for fun 

@@ -6,26 +6,22 @@
 #include "io.h"
 // #include "io.h"
 
+//read hexadecimal
 
-/* Check if the compiler thinks you are targeting the wrong operating system. */
-#if defined(__linux__)
-#error "You are not using a cross-compiler, you will most certainly run into trouble"
-#endif
+void terminal_writehex(uint8_t value)
+{
+    char hex[] = "0123456789ABCDEF";
 
-/* This tutorial will only work for the 32-bit ix86 targets. */
-#if !defined(__i386__)
-#error "This tutorial needs to be compiled with a ix86-elf compiler"
-#endif
+    terminal_putchar('0');
+    terminal_putchar('x');
 
-
-
+    terminal_putchar(hex[(value >> 4) & 0x0F]);
+    terminal_putchar(hex[value & 0x0F]);
+}
 
 void kernel_main(uint32_t magic, uint32_t mbi_addr) 
 {
 
-	char row = 7;
-	char column = 0;
-	/* Initialize terminal interface */
 	terminal_initialize();
 
 
@@ -39,23 +35,28 @@ void kernel_main(uint32_t magic, uint32_t mbi_addr)
 
     // if (mbi->flags & (1 << 6))
 
-	terminal_writestring("leoOs$>");
-
-	while(1){
-		
-		vga_set_cursor(column, row);
-		if (row == 80){
-			column++;
-			row = 0;
-		}
-		char c = keyboard_getchar();
+	print("leoOs$>");
 	
+	while(1){
+
+		char c = keyboard_getchar();
+		uint8_t scancode = inb(0x60);
+
+		if (scancode == 0x1C){
+			terminal_initialize();
+			print("leoOs$>");
+			continue;	
+		}
+
+		if (scancode == 0x0E){
+			delete_carac();
+			continue;
+		}
+			
+		// terminal_writehex(scancode);
+
 		if (c != 0)
 			terminal_putchar(c);
-
-		
-
-		row++;
 
 	}
 

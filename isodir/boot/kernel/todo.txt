@@ -1,0 +1,34 @@
+1. VGA Text Mode
+Primero, domina el modo texto de VGA.
+
+Puedes implementar:
+- vga_init() – Inicializar el sistema de video.
+- vga_putchar() – Imprimir un carácter.
+- vga_print() – Imprimir cadenas.
+- vga_clear() – Limpiar la pantalla.
+- vga_set_color() – Cambiar colores.
+- vga_set_cursor() – Mover el cursor.
+- vga_scroll() – Desplazar el contenido cuando la pantalla se llena.
+
+2. VGA Graphics Mode
+Después puedes experimentar con gráficos.
+
+Por ejemplo, cambiar a modo gráfico de 320x200 con 256 colores (Mode 13h).
+
+Podrías implementar:
+- put_pixel(x, y, color)
+- draw_line(x1, y1, x2, y2)
+- draw_rectangle(x, y, width, height, color)
+- draw_circle(x, y, radius, color)
+- clear_screen(color)
+
+Avanza en este orden:
+1. VGA Text Mode.
+2. VGA Hardware Cursor.
+3. VGA Scrolling.
+4. VGA Graphics Mode 13h.
+5. Framebuffer.
+6. Drawing primitives.
+7. Mouse cursor.
+8. Window Manager.
+9. GUI.

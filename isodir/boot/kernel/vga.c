@@ -39,10 +39,6 @@ size_t strlen(const char* str)
 	return len;
 }
 
-#define VGA_WIDTH   200
-#define VGA_HEIGHT  25
-#define VGA_MEMORY  0xB8000 
-
 size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
@@ -72,6 +68,7 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
+	vga_set_cursor(terminal_row ,terminal_column);
 }
 
 void terminal_putchar(char c) 
@@ -90,10 +87,36 @@ void terminal_write(const char* data, size_t size)
 		terminal_putchar(data[i]);
 }
 
-void terminal_writestring(const char* data) 
+void print(const char* data) 
 {
 	terminal_write(data, strlen(data));
 }
+
+
+//same as termminal terminal_initialize
+
+// void clear_terminal(void)
+// {
+// 	for(int i=0;i< VGA_WIDTH * VGA_HEIGHT; i++){
+// 		terminal_buffer[i] = vga_entry(' ', terminal_color);
+// 	}
+// 	terminal_row = 0;
+// 	terminal_column = 0;
+// 	vga_set_cursor(terminal_row ,terminal_column);
+
+// }
+
+
+void delete_carac(void){
+	if(terminal_column >= 8){
+		terminal_column--;
+	} 
+	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_CYAN, VGA_COLOR_BLACK);
+	terminal_buffer[terminal_row * VGA_WIDTH + terminal_column] = vga_entry(' ', terminal_color);
+	vga_set_cursor(terminal_row ,terminal_column);
+}
+
+
 
 
 void vga_set_cursor(uint16_t row, uint16_t column)

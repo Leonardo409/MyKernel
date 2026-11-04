@@ -42,8 +42,11 @@ void terminal_putchar(char c) ;
 
 void terminal_write(const char* data, size_t size) ;
 
-void terminal_writestring(const char* data) ;
+void print(const char* data) ;
 
+void clear_terminal(void);
+
+void delete_carac(void);
 
 
 void vga_set_cursor(uint16_t row, uint16_t column);

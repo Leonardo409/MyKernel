@@ -2,9 +2,9 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "multiboot.h"
+#include "string.h"
 #include "vga.h"
 #include "io.h"
-// #include "io.h"
 
 //read hexadecimal
 
@@ -35,17 +35,18 @@ void kernel_main(uint32_t magic, uint32_t mbi_addr)
 
     // if (mbi->flags & (1 << 6))
 
-	print("leoOs$>");
+	print("$");
 	
 	while(1){
 
 		char c = keyboard_getchar();
 		uint8_t scancode = inb(0x60);
+		
 
 		if (scancode == 0x1C){
 			terminal_initialize();
-			print("leoOs$>");
-			continue;	
+			print("$");	
+			continue;			
 		}
 
 		if (scancode == 0x0E){
@@ -53,14 +54,27 @@ void kernel_main(uint32_t magic, uint32_t mbi_addr)
 			continue;
 		}
 			
-		// terminal_writehex(scancode);
 
-		if (c != 0)
+		if (c != 0){
 			terminal_putchar(c);
-
+		}	
 	}
 
 }
 
 
+
+
+//clear the screen 
+// if (scancode == 0x1C){
+// 			for(int i = 0; i <= 4; i++){
+// 				text[i] = terminal_buffer[i+1] & 0xFF; 
+// 			}
+
+// 			if(strcmp(text, "clear") == 0){
+// 				terminal_initialize();
+// 				print("$");	
+// 			}
+// 			continue;			
+// 		}
 

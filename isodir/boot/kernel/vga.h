@@ -26,6 +26,7 @@ enum vga_color {
 };
 
 
+
 static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg); 
 
 static inline uint16_t vga_entry(unsigned char uc, uint8_t color) ;

@@ -108,7 +108,7 @@ void print(const char* data)
 
 
 void delete_carac(void){
-	if(terminal_column >= 8){
+	if(terminal_column >= 2){
 		terminal_column--;
 	} 
 	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_CYAN, VGA_COLOR_BLACK);

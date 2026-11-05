@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "string.h"
 
 #define VGA_WIDTH   80
 #define VGA_HEIGHT  25
@@ -31,7 +32,6 @@ static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg);
 
 static inline uint16_t vga_entry(unsigned char uc, uint8_t color) ;
 
-size_t strlen(const char* str) ;
 
 void terminal_initialize(void) ;
 

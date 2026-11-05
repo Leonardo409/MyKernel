@@ -31,13 +31,7 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t color)
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
 
-size_t strlen(const char* str) 
-{
-	size_t len = 0;
-	while (str[len])
-		len++;
-	return len;
-}
+
 
 size_t terminal_row;
 size_t terminal_column;
@@ -68,7 +62,7 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
-	vga_set_cursor(terminal_row ,terminal_column);
+	vga_set_cursor(terminal_row ,terminal_column+1);
 }
 
 void terminal_putchar(char c) 

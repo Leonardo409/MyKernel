@@ -26,9 +26,10 @@ _start:
 	mov $stack_top, %esp
 
 	cli
+
+	pushl %esp
 	pushl %ebx
 	pushl %eax
-
 
 	call kernel_main
 

@@ -5,61 +5,55 @@
 #include "string.h"
 #include "vga.h"
 #include "io.h"
-
-//read hexadecimal
-
-void terminal_writehex(uint8_t value)
-{
-    char hex[] = "0123456789ABCDEF";
-
-    terminal_putchar('0');
-    terminal_putchar('x');
-
-    terminal_putchar(hex[(value >> 4) & 0x0F]);
-    terminal_putchar(hex[value & 0x0F]);
-}
-
-void kernel_main(uint32_t magic, uint32_t mbi_addr) 
-{
-
-	terminal_initialize();
+#include "pmm.h"
 
 
-	// if (magic != MULTIBOOT_BOOTLOADER_MAGIC)
-    // {
-    //     for (;;);
-    // }
-
-    // struct multiboot_info* mbi =
-    //     (struct multiboot_info*)mbi_addr;
-
-    // if (mbi->flags & (1 << 6))
-
-	print("$");
+void kernel_main(uint32_t magic, uint32_t mbi_addr, uint32_t stack_initial_addrs) {
 	
-	while(1){
+	//initialize the phisical memory 0xFF for all the empty spaces
+	pmm_init();
 
-		char c = keyboard_getchar();
-		uint8_t scancode = inb(0x60);
-		
+	//print 10 spaces
+	// pmm_test();
 
-		if (scancode == 0x1C){
-			terminal_initialize();
-			print("$");	
-			continue;			
-		}
+	//getting the multiboot struct info
+	if (magic != MULTIBOOT_BOOTLOADER_MAGIC)
+    {
+        for (;;);
+    }
+	struct multiboot_info* mbi = (struct multiboot_info*)mbi_addr;
 
-		if (scancode == 0x0E){
-			delete_carac();
-			continue;
-		}
+	struct multiboot_mmap_entry *entry=(struct multiboot_mmap_entry *) (mbi->mmap_addr);
+
+
+	//printing the terminal sign
+	terminal_initialize();
+	
+	if (mbi->flags & (1 << 6)){
+		terminal_initialize();
+		print("memory map avialable: ");
+		while(1){
+
+			char c = keyboard_getchar();
+			uint8_t scancode = inb(0x60);
 			
 
-		if (c != 0){
-			terminal_putchar(c);
+			if (scancode == 0x1C){
+				terminal_initialize();
+				print("$");		
+				continue;			
+			}
+		
+			if (scancode == 0x0E){
+				delete_carac();
+				continue;
+			}	
+
+			if (c != 0){
+				terminal_putchar(c);
+			}
 		}	
 	}
-
 }
 
 
@@ -78,3 +72,8 @@ void kernel_main(uint32_t magic, uint32_t mbi_addr)
 // 			continue;			
 // 		}
 
+
+
+	
+
+  

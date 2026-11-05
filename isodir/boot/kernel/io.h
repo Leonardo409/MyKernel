@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 
+
+
+// mov dx, 0x60
+// in al, dx
+
 static inline uint8_t inb(uint16_t port)
 {
     uint8_t result;
